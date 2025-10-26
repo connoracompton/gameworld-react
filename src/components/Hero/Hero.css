@@ -1,0 +1,25 @@
+.hero {
+    text-align: center;
+    padding: 4rem 1rem;
+    background: var(--color-muted);
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-highlight);
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+}

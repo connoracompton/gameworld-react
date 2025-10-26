@@ -1,0 +1,23 @@
+.review-card {
+    max-width: 350px;
+}
+
+.rating {
+    font-size: 1.2rem;
+    color: #ffd700;
+    margin-bottom: 1rem;
+}
+
+.review-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-style: italic;
+    color: var(--color-text);
+}
+
+.author {
+    font-size: 0.9rem;
+    color: var(--color-highlight);
+    text-align: right;
+}
