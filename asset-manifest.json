@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/gameworld-react/static/css/main.ec6e7788.css",
-    "main.js": "/gameworld-react/static/js/main.6ec73c4f.js",
+    "main.css": "/gameworld-react/static/css/main.2c187e49.css",
+    "main.js": "/gameworld-react/static/js/main.ae5a9537.js",
     "static/js/453.3f0db14d.chunk.js": "/gameworld-react/static/js/453.3f0db14d.chunk.js",
     "static/media/steel-vanguard.png": "/gameworld-react/static/media/steel-vanguard.b63c4826455d186cbe13.png",
     "static/media/arcade-legends.png": "/gameworld-react/static/media/arcade-legends.1f815b023bd7a3136a74.png",
@@ -13,12 +13,12 @@
     "static/media/pixel-quest.png": "/gameworld-react/static/media/pixel-quest.0753fc017225ade6f8da.png",
     "static/media/rare-game-cartridge.png": "/gameworld-react/static/media/rare-game-cartridge.65752f72d5d166854d8a.png",
     "index.html": "/gameworld-react/index.html",
-    "main.ec6e7788.css.map": "/gameworld-react/static/css/main.ec6e7788.css.map",
-    "main.6ec73c4f.js.map": "/gameworld-react/static/js/main.6ec73c4f.js.map",
+    "main.2c187e49.css.map": "/gameworld-react/static/css/main.2c187e49.css.map",
+    "main.ae5a9537.js.map": "/gameworld-react/static/js/main.ae5a9537.js.map",
     "453.3f0db14d.chunk.js.map": "/gameworld-react/static/js/453.3f0db14d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ec6e7788.css",
-    "static/js/main.6ec73c4f.js"
+    "static/css/main.2c187e49.css",
+    "static/js/main.ae5a9537.js"
   ]
 }
