@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Hero from '../../components/Hero/hero';
-import CategoryCard from '../../components/CategoryCard/categorycard';
-import ProductCard from '../../components/ProductCard/productcard';
-import './home.css';
+import Hero from '../../components/Hero/Hero';
+import CategoryCard from '../../components/CategoryCard/CategoryCard';
+import ProductCard from '../../components/ProductCard/ProductCard';
+import Slideshow from '../../components/Slideshow/Slideshow';
+import './Home.css';
 
 function Home() {
     const featuredProducts = [
@@ -52,6 +53,8 @@ function Home() {
                 subtitle="Your ultimate destination for games, consoles, and collectibles" 
             />
 
+            <Slideshow />
+
             <section className="reviews-preview">
                 <div className="reviews-preview-card">
                     <h2>What Gamers Are Saying</h2>
@@ -95,6 +98,28 @@ function Home() {
                             image={product.image}
                         />
                     ))}
+                </div>
+            </section>
+
+            <section className="project-links">
+                <h3>Project Links</h3>
+                <div className="links-container">
+                    <a 
+                        href="https://connoracompton.github.io/gameworld-react/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="project-link"
+                    >
+                        🌐 Live Site
+                    </a>
+                    <a 
+                        href="https://github.com/connoracompton/gameworld-react" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="project-link"
+                    >
+                        📂 Code Repository
+                    </a>
                 </div>
             </section>
         </main>

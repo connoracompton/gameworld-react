@@ -1,6 +1,6 @@
 import React from 'react';
-import Hero from '../../components/Hero/hero';
-import ReviewCard from '../../components/ReviewCard/reviewcard';
+import Hero from '../../components/Hero/Hero';
+import ReviewCard from '../../components/ReviewCard/ReviewCard';
 import './Reviews.css';
 
 function Reviews() {

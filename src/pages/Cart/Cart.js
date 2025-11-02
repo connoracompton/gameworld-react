@@ -1,5 +1,5 @@
 import React from 'react';
-import Hero from '../../components/Hero/hero';
+import Hero from '../../components/Hero/Hero';
 import './Cart.css';
 
 function Cart() {

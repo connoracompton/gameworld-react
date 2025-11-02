@@ -51,3 +51,42 @@
     margin-top: 2rem;
     justify-items: center;
 }
+
+.project-links {
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-card-bg);
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+}
+
+.project-links h3 {
+    color: var(--color-highlight);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.links-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.project-link {
+    padding: 0.8rem 1.5rem;
+    background: var(--color-highlight);
+    color: var(--color-header-bg);
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.project-link:hover {
+    background: #0091a8;
+    transform: translateY(-2px);
+    text-decoration: none;
+}

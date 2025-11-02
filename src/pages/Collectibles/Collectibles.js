@@ -1,6 +1,6 @@
 import React from 'react';
-import Hero from '../../components/Hero/hero';
-import ProductCard from '../../components/ProductCard/productcard';
+import Hero from '../../components/Hero/Hero';
+import ProductCard from '../../components/ProductCard/ProductCard';
 import './Collectibles.css';
 
 function Collectibles() {
