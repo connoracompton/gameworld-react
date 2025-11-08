@@ -1,137 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import API_BASE_URL from '../../config';
-import './ProductPreview.css';
+import React from 'react';
+import Hero from '../../components/Hero/Hero';
+import ReviewCard from '../../components/ReviewCard/ReviewCard';
+import './Reviews.css';
 
-function ProductPreview() {
-    const { productId } = useParams();
-    const navigate = useNavigate();
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        fetchProduct();
-    }, [productId]);
-
-    const fetchProduct = async () => {
-        try {
-            setLoading(true);
-            
-            // Try each category
-            const categories = ['games', 'consoles', 'collectibles'];
-            let found = null;
-            
-            for (const category of categories) {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/${category}/${productId}`);
-                    if (response.ok) {
-                        found = await response.json();
-                        break;
-                    }
-                } catch (err) {
-                    continue;
-                }
-            }
-            
-            if (found) {
-                setProduct(found);
-                setError(null);
-            } else {
-                setError('Product not found');
-            }
-        } catch (err) {
-            console.error('Error:', err);
-            setError('Unable to load product');
-        } finally {
-            setLoading(false);
+function Reviews() {
+    const reviews = [
+        {
+            id: 1,
+            name: 'Mystic Realms',
+            image: 'https://gameworld-server.onrender.com/images/mystic-realms.png',
+            rating: '⭐ ⭐ ⭐ ⭐ ☆ (4/5)',
+            review: 'A visually stunning adventure with deep storytelling. Combat can feel repetitive, but the world-building makes up for it.',
+            author: 'Alex G.'
+        },
+        {
+            id: 2,
+            name: 'Next-Gen Gaming Console',
+            image: 'https://gameworld-server.onrender.com/images/next-gen.jpg',
+            rating: '⭐ ⭐ ⭐ ⭐ ⭐ (5/5)',
+            review: 'Blazing fast load times and breathtaking graphics. Finally feels like a true generational leap.',
+            author: 'Jordan P.'
+        },
+        {
+            id: 3,
+            name: 'Limited Edition Figure',
+            image: 'https://gameworld-server.onrender.com/images/limited-edition-figurine.png',
+            rating: '⭐ ⭐ ⭐ ☆ ☆ (3/5)',
+            review: 'The detail is great, but the price feels steep. Collectors will still love it though.',
+            author: 'Sam K.'
         }
-    };
-
-    const handleClose = () => {
-        navigate(-1);
-    };
-
-    if (loading) {
-        return (
-            <main>
-                <div className="modal-overlay" onClick={handleClose}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="modal-close" onClick={handleClose}>×</button>
-                        <div style={{ textAlign: 'center', padding: '3rem' }}>
-                            <p>Loading...</p>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        );
-    }
-
-    if (error || !product) {
-        return (
-            <main>
-                <div className="modal-overlay" onClick={handleClose}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="modal-close" onClick={handleClose}>×</button>
-                        <div style={{ textAlign: 'center', padding: '3rem', color: '#ff6b6b' }}>
-                            <h2>Product Not Found</h2>
-                            <p>{error}</p>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        );
-    }
+    ];
 
     return (
         <main>
-            <div className="modal-overlay" onClick={handleClose}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <button className="modal-close" onClick={handleClose}>×</button>
-                    
-                    <div className="product-details">
-                        <div className="product-image">
-                            <img src={product.image} alt={product.name} />
-                        </div>
-                        
-                        <div className="product-info">
-                            <h2>{product.name}</h2>
-                            <p className="product-description">{product.description}</p>
-                            
-                            {product.genre && (
-                                <div className="product-specs">
-                                    <p><strong>Genre:</strong> {product.genre}</p>
-                                    <p><strong>Platform:</strong> {product.platform}</p>
-                                    <p><strong>Rating:</strong> {product.rating}</p>
-                                </div>
-                            )}
-                            
-                            {product.manufacturer && (
-                                <div className="product-specs">
-                                    <p><strong>Manufacturer:</strong> {product.manufacturer}</p>
-                                    <p><strong>Release Year:</strong> {product.release_year}</p>
-                                </div>
-                            )}
-                            
-                            {product.rarity && (
-                                <div className="product-specs">
-                                    <p><strong>Rarity:</strong> {product.rarity}</p>
-                                    {product.height && <p><strong>Height:</strong> {product.height}</p>}
-                                    {product.size && <p><strong>Size:</strong> {product.size}</p>}
-                                </div>
-                            )}
-                            
-                            <p className="product-price">${product.price}</p>
-                            
-                            <button className="add-cart-btn" onClick={() => alert('Added to cart!')}>
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
+            <Hero 
+                title="Player Reviews" 
+                subtitle="See what gamers are saying about the latest titles, consoles, and collectibles." 
+            />
+
+            <section className="featured">
+                <h2>Latest Reviews</h2>
+                <div className="products">
+                    {reviews.map((review) => (
+                        <ReviewCard 
+                            key={review.id}
+                            name={review.name}
+                            image={review.image}
+                            rating={review.rating}
+                            review={review.review}
+                            author={review.author}
+                        />
+                    ))}
                 </div>
-            </div>
+            </section>
         </main>
     );
 }
 
-export default ProductPreview;
+export default Reviews;

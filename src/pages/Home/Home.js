@@ -1,50 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../../components/Hero/Hero';
 import CategoryCard from '../../components/CategoryCard/CategoryCard';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import Slideshow from '../../components/Slideshow/Slideshow';
+import API_BASE_URL from '../../config';
 import './Home.css';
 
 function Home() {
-    const featuredProducts = [
-        {
-            id: 'mystic-realms',
-            name: 'Mystic Realms',
-            price: '49.99',
-            image: require('../../images/mystic-realms.png')
-        },
-        {
-            id: 'next-gen',
-            name: 'Next-Gen Gaming Console',
-            price: '499.99',
-            image: require('../../images/next-gen.jpg')
-        },
-        {
-            id: 'limited-figure',
-            name: 'Limited Edition Figure',
-            price: '89.99',
-            image: require('../../images/limited-edition-figurine.png')
-        },
-        {
-            id: 'pixel-quest',
-            name: 'Pixel Quest',
-            price: '49.99',
-            image: require('../../images/pixel-quest.png')
-        },
-        {
-            id: 'controller',
-            name: 'Wireless Controller',
-            price: '69.99',
-            image: require('../../images/controller.jpg')
-        },
-        {
-            id: 'poster',
-            name: 'Vintage Gaming Poster',
-            price: '19.99',
-            image: require('../../images/vintage-gaming-poster.png')
+    const [featuredProducts, setFeaturedProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchFeaturedProducts();
+    }, []);
+
+    const fetchFeaturedProducts = async () => {
+        try {
+            setLoading(true);
+            
+            // Fetch from all three categories
+            const [gamesRes, consolesRes, collectiblesRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/api/games`),
+                fetch(`${API_BASE_URL}/api/consoles`),
+                fetch(`${API_BASE_URL}/api/collectibles`)
+            ]);
+
+            const games = await gamesRes.json();
+            const consoles = await consolesRes.json();
+            const collectibles = await collectiblesRes.json();
+
+            // Select featured items (first 2 from each category)
+            const featured = [
+                ...games.slice(0, 2),
+                ...consoles.slice(0, 2),
+                ...collectibles.slice(0, 2)
+            ];
+
+            setFeaturedProducts(featured);
+        } catch (err) {
+            console.error('Error fetching featured products:', err);
+        } finally {
+            setLoading(false);
         }
-    ];
+    };
 
     return (
         <main>
@@ -88,17 +87,27 @@ function Home() {
 
             <section className="featured">
                 <h2>Featured Products</h2>
-                <div className="products">
-                    {featuredProducts.map((product) => (
-                        <ProductCard 
-                            key={product.id}
-                            id={product.id}
-                            name={product.name}
-                            price={product.price}
-                            image={product.image}
-                        />
-                    ))}
-                </div>
+                
+                {loading ? (
+                    <div style={{ textAlign: 'center', padding: '2rem' }}>
+                        <p>Loading featured products...</p>
+                    </div>
+                ) : (
+                    <div className="products">
+                        {featuredProducts.map((product) => (
+                            <ProductCard 
+                                key={product.id}
+                                id={product.id}
+                                name={product.name}
+                                price={product.price}
+                                image={product.image}
+                                genre={product.genre}
+                                platform={product.platform}
+                                rating={product.rating}
+                            />
+                        ))}
+                    </div>
+                )}
             </section>
 
             <section className="project-links">
@@ -118,7 +127,23 @@ function Home() {
                         rel="noopener noreferrer"
                         className="project-link"
                     >
-                        📂 Code Repository
+                        📂 Client Code Repository
+                    </a>
+                    <a 
+                        href="https://gameworld-server.onrender.com" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="project-link"
+                    >
+                        🔌 API Server
+                    </a>
+                    <a 
+                        href="https://github.com/connoracompton/gameworld-server" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="project-link"
+                    >
+                        📂 Server Code Repository
                     </a>
                 </div>
             </section>
