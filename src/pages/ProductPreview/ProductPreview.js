@@ -1,7 +1,7 @@
 import React from 'react';
 import Hero from '../../components/Hero/Hero';
 import ReviewCard from '../../components/ReviewCard/ReviewCard';
-import './Reviews.css';
+import './ProductPreview.css';
 
 function Reviews() {
     const reviews = [
