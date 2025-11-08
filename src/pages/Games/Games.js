@@ -1,66 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from '../../components/Hero/Hero';
 import ProductCard from '../../components/ProductCard/ProductCard';
+import API_BASE_URL from '../../config';
 import './Games.css';
 
 function Games() {
-    // Hardcoded games data (will be dynamic later with JSON)
-    const games = [
-        {
-            id: 'mystic-realms',
-            name: 'Mystic Realms',
-            price: '49.99',
-            genre: 'RPG',
-            platform: 'PS5, Xbox, PC',
-            rating: 'E10+',
-            image: require('../../images/mystic-realms.png')
-        },
-        {
-            id: 'arcade-legends',
-            name: 'Arcade Legends',
-            price: '29.99',
-            genre: 'Arcade',
-            platform: 'Switch, PC',
-            rating: 'E',
-            image: require('../../images/arcade-legends.png')
-        },
-        {
-            id: 'steel-vanguard',
-            name: 'Steel Vanguard',
-            price: '59.99',
-            genre: 'Action',
-            platform: 'PS5, Xbox, PC',
-            rating: 'M',
-            image: require('../../images/steel-vanguard.png')
-        },
-        {
-            id: 'lost-horizon',
-            name: 'Lost Horizon',
-            price: '49.99',
-            genre: 'Adventure',
-            platform: 'PS5, PC',
-            rating: 'T',
-            image: require('../../images/lost-horizon.png')
-        },
-        {
-            id: 'pixel-quest',
-            name: 'Pixel Quest',
-            price: '29.99',
-            genre: 'Platformer',
-            platform: 'All Platforms',
-            rating: 'E',
-            image: require('../../images/pixel-quest.png')
-        },
-        {
-            id: 'shadow-strike',
-            name: 'Shadow Strike',
-            price: '59.99',
-            genre: 'Stealth',
-            platform: 'PS5, Xbox, PC',
-            rating: 'M',
-            image: require('../../images/shadow-strike.png')
+    const [games, setGames] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchGames();
+    }, []);
+
+    const fetchGames = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/api/games`);
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch games');
+            }
+            
+            const data = await response.json();
+            setGames(data);
+            setError(null);
+        } catch (err) {
+            console.error('Error:', err);
+            setError('Unable to load games. Please try again later.');
+        } finally {
+            setLoading(false);
         }
-    ];
+    };
 
     return (
         <main>
@@ -71,20 +42,35 @@ function Games() {
 
             <section className="featured">
                 <h2>All Games</h2>
-                <div className="products">
-                    {games.map((game) => (
-                        <ProductCard 
-                            key={game.id}
-                            id={game.id}
-                            name={game.name}
-                            price={game.price}
-                            image={game.image}
-                            genre={game.genre}
-                            platform={game.platform}
-                            rating={game.rating}
-                        />
-                    ))}
-                </div>
+                
+                {loading && (
+                    <div style={{ textAlign: 'center', padding: '2rem' }}>
+                        <p>Loading games...</p>
+                    </div>
+                )}
+                
+                {error && (
+                    <div style={{ textAlign: 'center', padding: '2rem', color: '#ff6b6b' }}>
+                        <p>{error}</p>
+                    </div>
+                )}
+                
+                {!loading && !error && games.length > 0 && (
+                    <div className="products">
+                        {games.map((game) => (
+                            <ProductCard 
+                                key={game.id}
+                                id={game.id}
+                                name={game.name}
+                                price={game.price}
+                                image={game.image}
+                                genre={game.genre}
+                                platform={game.platform}
+                                rating={game.rating}
+                            />
+                        ))}
+                    </div>
+                )}
             </section>
         </main>
     );
