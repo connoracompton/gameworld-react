@@ -1,24 +1,17 @@
 {
   "files": {
-    "main.css": "/gameworld-react/static/css/main.2c187e49.css",
-    "main.js": "/gameworld-react/static/js/main.ae5a9537.js",
+    "main.css": "/gameworld-react/static/css/main.c7e9cb8c.css",
+    "main.js": "/gameworld-react/static/js/main.7b003357.js",
     "static/js/453.3f0db14d.chunk.js": "/gameworld-react/static/js/453.3f0db14d.chunk.js",
-    "static/media/steel-vanguard.png": "/gameworld-react/static/media/steel-vanguard.b63c4826455d186cbe13.png",
-    "static/media/arcade-legends.png": "/gameworld-react/static/media/arcade-legends.1f815b023bd7a3136a74.png",
     "static/media/mystic-realms.png": "/gameworld-react/static/media/mystic-realms.ba5003386141636d77e6.png",
-    "static/media/shadow-strike.png": "/gameworld-react/static/media/shadow-strike.fb95938dad5eae2fce5b.png",
-    "static/media/lost-horizon.png": "/gameworld-react/static/media/lost-horizon.956de588b25aa213544f.png",
     "static/media/limited-edition-figurine.png": "/gameworld-react/static/media/limited-edition-figurine.4f17879466a3eca9ef86.png",
-    "static/media/vintage-gaming-poster.png": "/gameworld-react/static/media/vintage-gaming-poster.75909353056331013985.png",
-    "static/media/pixel-quest.png": "/gameworld-react/static/media/pixel-quest.0753fc017225ade6f8da.png",
-    "static/media/rare-game-cartridge.png": "/gameworld-react/static/media/rare-game-cartridge.65752f72d5d166854d8a.png",
     "index.html": "/gameworld-react/index.html",
-    "main.2c187e49.css.map": "/gameworld-react/static/css/main.2c187e49.css.map",
-    "main.ae5a9537.js.map": "/gameworld-react/static/js/main.ae5a9537.js.map",
+    "main.c7e9cb8c.css.map": "/gameworld-react/static/css/main.c7e9cb8c.css.map",
+    "main.7b003357.js.map": "/gameworld-react/static/js/main.7b003357.js.map",
     "453.3f0db14d.chunk.js.map": "/gameworld-react/static/js/453.3f0db14d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2c187e49.css",
-    "static/js/main.ae5a9537.js"
+    "static/css/main.c7e9cb8c.css",
+    "static/js/main.7b003357.js"
   ]
 }
