@@ -122,7 +122,10 @@ function EditGameForm({ game, onGameUpdated, onClose }) {
         setSubmitStatus({ type: '', message: '' });
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/games/${formData.id}`, {
+            const url = `${API_BASE_URL}/api/games/${formData.id}`;
+            console.log('Updating game at:', url);
+            
+            const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -138,7 +141,19 @@ function EditGameForm({ game, onGameUpdated, onClose }) {
                 })
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+
+            // Check if response is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await response.text();
+                console.error('Non-JSON response:', text);
+                throw new Error('Server returned non-JSON response. The game may not exist.');
+            }
+
             const data = await response.json();
+            console.log('Response data:', data);
 
             if (response.ok) {
                 setSubmitStatus({ 
@@ -165,7 +180,7 @@ function EditGameForm({ game, onGameUpdated, onClose }) {
             console.error('Update error:', error);
             setSubmitStatus({ 
                 type: 'error', 
-                message: 'Network error. Please try again.' 
+                message: error.message || 'Network error. Please try again.' 
             });
         } finally {
             setIsSubmitting(false);

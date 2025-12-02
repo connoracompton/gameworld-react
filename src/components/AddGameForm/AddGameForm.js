@@ -114,6 +114,8 @@ function AddGameForm({ onGameAdded }) {
         setSubmitStatus({ type: '', message: '' });
 
         try {
+            console.log('Posting to:', `${API_BASE_URL}/api/games`);
+    
             const response = await fetch(`${API_BASE_URL}/api/games`, {
                 method: 'POST',
                 headers: {
@@ -124,6 +126,11 @@ function AddGameForm({ onGameAdded }) {
                     price: parseFloat(formData.price)
                 })
             });
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error('Server returned non-JSON response');
+            }
 
             const data = await response.json();
 
