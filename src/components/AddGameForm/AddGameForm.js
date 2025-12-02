@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API_BASE_URL from '../../config';
 import './AddGameForm.css';
 
 function AddGameForm({ onGameAdded }) {
@@ -113,7 +114,7 @@ function AddGameForm({ onGameAdded }) {
         setSubmitStatus({ type: '', message: '' });
 
         try {
-            const response = await fetch('https://gameworld-server.onrender.com/api/games', {
+            const response = await fetch(`${API_BASE_URL}/api/games`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
