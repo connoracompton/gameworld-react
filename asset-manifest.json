@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/gameworld-react/static/css/main.8ecaa060.css",
-    "main.js": "/gameworld-react/static/js/main.c64b011c.js",
+    "main.js": "/gameworld-react/static/js/main.d5edce23.js",
     "static/js/453.3f0db14d.chunk.js": "/gameworld-react/static/js/453.3f0db14d.chunk.js",
     "static/media/mystic-realms.png": "/gameworld-react/static/media/mystic-realms.ba5003386141636d77e6.png",
     "static/media/limited-edition-figurine.png": "/gameworld-react/static/media/limited-edition-figurine.4f17879466a3eca9ef86.png",
     "index.html": "/gameworld-react/index.html",
     "main.8ecaa060.css.map": "/gameworld-react/static/css/main.8ecaa060.css.map",
-    "main.c64b011c.js.map": "/gameworld-react/static/js/main.c64b011c.js.map",
+    "main.d5edce23.js.map": "/gameworld-react/static/js/main.d5edce23.js.map",
     "453.3f0db14d.chunk.js.map": "/gameworld-react/static/js/453.3f0db14d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8ecaa060.css",
-    "static/js/main.c64b011c.js"
+    "static/js/main.d5edce23.js"
   ]
 }
