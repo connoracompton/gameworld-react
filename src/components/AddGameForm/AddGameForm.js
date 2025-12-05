@@ -14,9 +14,12 @@ function AddGameForm({ onGameAdded }) {
         description: ''
     });
     
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState('');
     const [errors, setErrors] = useState({});
     const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
 
     const validateForm = () => {
         const newErrors = {};
@@ -62,9 +65,9 @@ function AddGameForm({ onGameAdded }) {
         }
 
         // Image validation
-        if (!formData.image.trim()) {
-            newErrors.image = 'Image URL is required';
-        } else {
+        if (!formData.image.trim() && !selectedFile) {
+            newErrors.image = 'Image URL or file upload is required';
+        } else if (formData.image.trim()) {
             try {
                 new URL(formData.image);
             } catch {
@@ -99,6 +102,80 @@ function AddGameForm({ onGameAdded }) {
         }
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                setErrors(prev => ({
+                    ...prev,
+                    image: 'Please select a valid image file (JPEG, PNG, GIF, or WebP)'
+                }));
+                return;
+            }
+
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                setErrors(prev => ({
+                    ...prev,
+                    image: 'Image file size must be less than 5MB'
+                }));
+                return;
+            }
+
+            setSelectedFile(file);
+            
+            // Create preview
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewUrl(reader.result);
+            };
+            reader.readAsDataURL(file);
+
+            // Clear image URL if file is selected
+            setFormData(prev => ({
+                ...prev,
+                image: ''
+            }));
+
+            // Clear errors
+            if (errors.image) {
+                setErrors(prev => ({
+                    ...prev,
+                    image: ''
+                }));
+            }
+        }
+    };
+
+    const uploadImage = async () => {
+        if (!selectedFile) return formData.image;
+
+        setUploadingImage(true);
+        const imageFormData = new FormData();
+        imageFormData.append('image', selectedFile);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/upload`, {
+                method: 'POST',
+                body: imageFormData
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                return data.imageUrl;
+            } else {
+                throw new Error(data.error || 'Failed to upload image');
+            }
+        } catch (error) {
+            throw new Error(`Image upload failed: ${error.message}`);
+        } finally {
+            setUploadingImage(false);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -114,8 +191,12 @@ function AddGameForm({ onGameAdded }) {
         setSubmitStatus({ type: '', message: '' });
 
         try {
-            console.log('Posting to:', `${API_BASE_URL}/api/games`);
-    
+            // Upload image if file is selected
+            let imageUrl = formData.image;
+            if (selectedFile) {
+                imageUrl = await uploadImage();
+            }
+
             const response = await fetch(`${API_BASE_URL}/api/games`, {
                 method: 'POST',
                 headers: {
@@ -123,7 +204,8 @@ function AddGameForm({ onGameAdded }) {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    price: parseFloat(formData.price)
+                    price: parseFloat(formData.price),
+                    image: imageUrl
                 })
             });
 
@@ -151,6 +233,8 @@ function AddGameForm({ onGameAdded }) {
                     image: '',
                     description: ''
                 });
+                setSelectedFile(null);
+                setPreviewUrl('');
                 
                 // Notify parent component
                 if (onGameAdded) {
@@ -165,7 +249,7 @@ function AddGameForm({ onGameAdded }) {
         } catch (error) {
             setSubmitStatus({ 
                 type: 'error', 
-                message: 'Network error. Please try again.' 
+                message: error.message || 'Network error. Please try again.' 
             });
         } finally {
             setIsSubmitting(false);
@@ -275,7 +359,7 @@ function AddGameForm({ onGameAdded }) {
                 </div>
 
                 <div className="form-group full-width">
-                    <label htmlFor="image">Image URL *</label>
+                    <label htmlFor="image">Image *</label>
                     <input
                         type="url"
                         id="image"
@@ -284,8 +368,37 @@ function AddGameForm({ onGameAdded }) {
                         onChange={handleChange}
                         placeholder="https://example.com/image.jpg"
                         className={errors.image ? 'error' : ''}
+                        disabled={selectedFile !== null}
                     />
                     {errors.image && <span className="error-message">{errors.image}</span>}
+                    <small>Enter image URL or upload a file below</small>
+                </div>
+
+                <div className="form-group full-width">
+                    <label htmlFor="imageFile">Or Upload Image File</label>
+                    <input
+                        type="file"
+                        id="imageFile"
+                        accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                        onChange={handleFileChange}
+                        disabled={formData.image.trim() !== ''}
+                    />
+                    <small>Max file size: 5MB. Allowed formats: JPEG, PNG, GIF, WebP</small>
+                    {previewUrl && (
+                        <div className="image-preview">
+                            <img src={previewUrl} alt="Preview" style={{ maxWidth: '200px', marginTop: '10px', borderRadius: '8px' }} />
+                            <button 
+                                type="button" 
+                                onClick={() => {
+                                    setSelectedFile(null);
+                                    setPreviewUrl('');
+                                }}
+                                style={{ display: 'block', marginTop: '10px', padding: '5px 10px', background: '#ff6b6b', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                            >
+                                Remove Image
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 <div className="form-group full-width">
@@ -306,9 +419,9 @@ function AddGameForm({ onGameAdded }) {
                 <button 
                     type="submit" 
                     className="submit-btn"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || uploadingImage}
                 >
-                    {isSubmitting ? 'Adding Game...' : 'Add Game'}
+                    {uploadingImage ? 'Uploading Image...' : isSubmitting ? 'Adding Game...' : 'Add Game'}
                 </button>
 
                 {submitStatus.message && (

@@ -124,7 +124,7 @@ function ProductPreview() {
                             {product.size && <p><strong>Size:</strong> {product.size}</p>}
                             {product.condition && <p><strong>Condition:</strong> {product.condition}</p>}
                         </div>
-
+                        
                         <p className="product-price">${product.price}</p>
 
                         <button className="add-cart-btn">
